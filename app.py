@@ -63,6 +63,14 @@ def query_cases():
         results = SupportCase.query.filter_by(case_number=case_number).all()
     return render_template('query.html', results=results)
 
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    results = []
+    if request.method == 'POST':
+        search_term = request.form['search_term']
+        results = SupportCase.query.filter(SupportCase.case_number.contains(search_term)).all()
+    return render_template('search.html', results=results)
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
