@@ -43,13 +43,29 @@ def submit():
 def search():
     results = []
     if request.method == 'POST':
-        search_term = request.form['search_term']
-        results = SupportCase.query.filter(
-            (SupportCase.case_number.contains(search_term)) |
-            (SupportCase.reason.contains(search_term)) |
-            (SupportCase.more_tickets.like(f"%{search_term}%"))
-        ).all()
+        case_number = request.form.get('case_number')
+        search_term = request.form.get('search_term')
+        more_tickets = request.form.get('more_tickets')
+
+        query = SupportCase.query
+
+        if case_number:
+            query = query.filter(SupportCase.case_number.contains(case_number))
+
+        if search_term:
+            query = query.filter(
+                (SupportCase.case_number.contains(search_term)) |
+                (SupportCase.reason.contains(search_term))
+            )
+
+        if more_tickets and more_tickets != 'all':
+            more_tickets_value = more_tickets == 'true'
+            query = query.filter(SupportCase.more_tickets == more_tickets_value)
+
+        results = query.all()
     return render_template('search.html', results=results)
+
+
 
 @app.route('/query', methods=['GET', 'POST'])
 def query_cases():

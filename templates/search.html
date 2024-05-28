@@ -2,13 +2,41 @@
 <html>
 <head>
     <title>Search Support Cases</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
     <h1>Search Support Cases</h1>
     <form method="POST">
-        <label for="search_term">Search for keywords:</label>
-        <input type="text" id="search_term" name="search_term" required>
-        <button type="submit">Search</button>
+        <div>
+            <label for="case_number">Case Number:</label>
+            <input type="text" id="case_number" name="case_number">
+        </div>
+        <div>
+            <label for="search_term">Search Keywords:</label>
+            <input type="text" id="search_term" name="search_term">
+        </div>
+        <div>
+            <label for="more_tickets">More Tickets Created:</label>
+            <select id="more_tickets" name="more_tickets">
+                <option value="all">All</option>
+                <option value="true">True</option>
+                <option value="false">False</option>
+            </select>
+        </div>
+        <button type="submit">Search</button><br>
+        <a href="/">Go to home screen</a><br>
     </form>
     {% if results %}
     <h2>Results:</h2>
