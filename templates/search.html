@@ -15,6 +15,14 @@
             text-align: left;
         }
     </style>
+    <script>
+        function toggle(source) {
+            checkboxes = document.getElementsByName('delete_cases');
+            for(var i=0, n=checkboxes.length; i<n; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Search Support Cases</h1>
@@ -36,30 +44,39 @@
             </select>
         </div>
         <button type="submit">Search</button><br>
-        <a href="/">Go to home screen</a><br>
+        <a href="/">Home</a><br>
     </form>
+
     {% if results %}
-    <h2>Results:</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Case Number</th>
-                <th>Reason</th>
-                <th>More Tickets</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for case in results %}
-            <tr>
-                <td>{{ case.id }}</td>
-                <td>{{ case.case_number }}</td>
-                <td>{{ case.reason }}</td>
-                <td>{{ case.more_tickets }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <form method="POST" action="/delete_cases">
+        <h2>Results:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Delete</th>
+                    <th>ID</th>
+                    <th>Case Number</th>
+                    <th>Reason</th>
+                    <th>More Tickets</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for case in results %}
+                <tr>
+                    <td><input type="checkbox" name="delete_cases" value="{{ case.id }}"></td>
+                    <td>{{ case.id }}</td>
+                    <td>{{ case.case_number }}</td>
+                    <td>{{ case.reason }}</td>
+                    <td>{{ case.more_tickets }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            <input type="checkbox" onclick="toggle(this)"> Select All
+        </div>
+        <button type="submit">Delete Selected</button>
+    </form>
     {% else %}
     <p>No results found</p>
     {% endif %}

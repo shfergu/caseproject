@@ -65,15 +65,16 @@ def search():
         results = query.all()
     return render_template('search.html', results=results)
 
-
-
-@app.route('/query', methods=['GET', 'POST'])
-def query_cases():
-    results = []
-    if request.method == 'POST':
-        case_number = request.form['case_number']
-        results = SupportCase.query.filter_by(case_number=case_number).all()
-    return render_template('query.html', results=results)
+@app.route('/delete_cases', methods=['POST'])
+def delete_cases():
+    case_ids = request.form.getlist('delete_cases')
+    if case_ids:
+        for case_id in case_ids:
+            case = SupportCase.query.get(case_id)
+            if case:
+                db.session.delete(case)
+        db.session.commit()
+    return redirect(url_for('search'))
 
 if __name__ == '__main__':
     with app.app_context():
