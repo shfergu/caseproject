@@ -44,7 +44,11 @@ def search():
     results = []
     if request.method == 'POST':
         search_term = request.form['search_term']
-        results = SupportCase.query.filter(SupportCase.case_number.contains(search_term)).all()
+        results = SupportCase.query.filter(
+            (SupportCase.case_number.contains(search_term)) |
+            (SupportCase.reason.contains(search_term)) |
+            (SupportCase.more_tickets.like(f"%{search_term}%"))
+        ).all()
     return render_template('search.html', results=results)
 
 @app.route('/query', methods=['GET', 'POST'])

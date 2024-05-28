@@ -6,7 +6,7 @@
 <body>
     <h1>Search Support Cases</h1>
     <form method="POST">
-        <label for="search_term">Search by Case Number:</label>
+        <label for="search_term">Search for keywords:</label>
         <input type="text" id="search_term" name="search_term" required>
         <button type="submit">Search</button>
     </form>
@@ -32,6 +32,8 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+    <p>No results found</p>
     {% endif %}
 </body>
 </html>
