@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Support Cases</title>
+</head>
+<body>
+    <h1>Search Support Cases</h1>
+    <form method="POST">
+        <label for="search_term">Search by Case Number:</label>
+        <input type="text" id="search_term" name="search_term" required>
+        <button type="submit">Search</button>
+    </form>
+    {% if results %}
+    <h2>Results:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Case Number</th>
+                <th>Reason</th>
+                <th>More Tickets</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for case in results %}
+            <tr>
+                <td>{{ case.id }}</td>
+                <td>{{ case.case_number }}</td>
+                <td>{{ case.reason }}</td>
+                <td>{{ case.more_tickets }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</body>
+</html>
